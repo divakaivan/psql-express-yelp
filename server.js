@@ -50,7 +50,6 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
       });
     }
 
-    console.log("I am still running");
     // get reviews for the found restaurant
     const reviews = await db.query(
       "select * from reviews where restaurant_id = $1",
@@ -159,8 +158,12 @@ app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {
         review: newReview.rows[0],
       },
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      data: { error, message: "Could not add a review to the restaurant!" },
+    });
   }
 });
 
