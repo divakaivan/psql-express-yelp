@@ -42,7 +42,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 
     // If there is no restaurant found
     if (restaurant.rows.length === 0) {
-      res.status(404).json({
+      return res.status(404).json({
         status: "error",
         data: {
           error: "Restaurant with the given id DOES NOT exist",
@@ -50,6 +50,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
       });
     }
 
+    console.log("I am still running");
     // get reviews for the found restaurant
     const reviews = await db.query(
       "select * from reviews where restaurant_id = $1",
